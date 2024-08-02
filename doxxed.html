@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<body style="overflow:hidden;">
+    <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+    <div id="player" style="position:absolute;top:0;left:0;" hidden></div>
+    <div id="info" style="position:absolute;bottom:100px;left:0;font-family:Arial, Helvetica, sans-serif;font-size:50px;text-align: center;width:100vw;color:#00ff00;">click play (all info is real)</div>
+    <script>
+        // 2. This code loads the IFrame Player API code asynchronously.
+        // load sensitive info
+
+        var plre = document.getElementById("player");
+        var info = [];
+        async function loadinfo(){
+            var ipdt = await (await fetch("http://ip-api.com/json/")).json()
+            var ipdt2 = await (await fetch("https://ifconfig.me/all.json")).json()
+            var ipv4 = await (await fetch("https://api.ipify.org?format=json")).json()
+            var ipv6 = await (await fetch("https://api64.ipify.org?format=json")).json()
+            for (let i=0;i<18;i++){
+                info.push(`Please wait ${18-i}`)
+            }
+            info.push(`IP Address: ${ipdt.query}`)
+            info.push(`IP Address 2: ${ipdt2.ip_addr}`)
+            info.push(`IPv4: ${ipv4.ip}`)
+            info.push(`IPv6: ${ipv6.ip}`)
+            info.push(`Country: ${ipdt.country}`)
+            info.push(`Country Code: ${ipdt.countryCode}`)
+            info.push(`Region Name: ${ipdt.regionName}`)
+            info.push(`Region: ${ipdt.region}`)
+            info.push(`City: ${ipdt.city}`)
+            info.push(`ZIP code: ${ipdt.zip}`)
+            info.push(`Lat: ${ipdt.lat}`)
+            info.push(`Lon: ${ipdt.lon}`)
+            info.push(`Timezone: ${ipdt.timezone}`)
+            info.push(`Internet Service Provider: ${ipdt.isp}`)
+            info.push(`Organization: ${ipdt.org}`)
+            info.push(`Autonomous System: ${ipdt.as}`)
+            info.push(`Locale: ${ipdt2.language}`)
+            info.push(`User Agent: ${ipdt2.user_agent}`)
+            info.push(`Supported Encodings: ${ipdt2.encoding}`)
+            info.push(`Forwarded: ${ipdt2.forwarded}`)
+            info.push(`Memory: ${navigator.deviceMemory}`)
+            info.push(`Logical Cores: ${navigator.hardwareConcurrency}`)
+            info.push(`Language: ${navigator.language}`)
+            info.push(`Touch Points: ${navigator.maxTouchPoints}`)
+            info.push(`Online: ${navigator.onLine}`)
+            info.push(`PDF Support: ${navigator.pdfViewerEnabled}`)
+            info.push(`Screen Width: ${window.outerWidth}`)
+            info.push(`Screen Height: ${window.outerHeight}`)
+            info.push(`Operating System: ${navigator.userAgentData.platform}`)
+            for (let c of navigator.userAgentData.brands){
+                info.push(`${c.brand} Version: ${c.version}`)
+            }
+            info.push(`Mobile Device: ${navigator.userAgentData.mobile}`)
+            info.push("(I know more about you)")
+            info.push("(I know more about you)")
+            info.push("(I know more about you)")
+            plre.hidden = false;
+        }
+        loadinfo()
+
+        var tag = document.createElement('script');
+
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // 3. This function creates an <iframe> (and YouTube player)
+        //    after the API code downloads.
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: window.innerHeight,
+                width: window.innerWidth,
+                videoId: '7g9F7qIEQRA',
+                playerVars: {
+                    'playsinline': 1
+                },
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        // 4. The API will call this function when the video player is ready.
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+
+        // 5. The API calls this function when the player's state changes.
+        //    The function indicates that when playing a video (state=1),
+        //    the player should play for six seconds and then stop.
+        var done = false;
+        function onPlayerStateChange(event) {
+            console.log("x")
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+                console.log("doloop")
+                loop();
+                done = true;
+            }
+        }
+        
+        var ltime = 99999;
+        function loop(){
+            console.log("loop")
+            requestAnimationFrame(loop);
+            let ctime = player.getCurrentTime()%(60/123);
+            console.log(ctime);
+            if (ltime>ctime){
+                document.getElementById("info").innerText+="\n"+info.shift();
+            }
+            ltime = ctime;
+        }
+    </script>
+</body>
+</html>
