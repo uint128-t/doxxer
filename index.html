@@ -3,7 +3,11 @@
 <body style="overflow:hidden;">
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
     <div id="player" style="position:absolute;top:0;left:0;" hidden></div>
-    <div id="info" style="position:absolute;bottom:100px;left:0;font-family:Arial, Helvetica, sans-serif;font-size:50px;text-align: center;width:100vw;color:#00ff00;">click play (all info is real)</div>
+    <div id="info" style="position:absolute;bottom:100px;left:0;font-family:Arial, Helvetica, sans-serif;font-size:50px;text-align: center;width:100vw;color:#00ff00;pointer-events: none;">
+        click play (all info is mostly true)<br>
+        doxxed meme but you actually get doxxed<br>
+        info is not sent anywhere, all websites know this
+    </div>
     <script>
         // 2. This code loads the IFrame Player API code asynchronously.
         // load sensitive info
@@ -16,8 +20,8 @@
             var ipv6 = await (await fetch("https://api64.ipify.org?format=json")).json()
             var ipdt = await (await fetch(`https://ipapi.co/${ipv4.ip}/json/`)).json()
             var ipdt3 = await (await fetch(`https://api.ipapi.is`)).json()
-            for (let i=0;i<18;i++){
-                info.push(`Please wait ${18-i}`)
+            for (let i=0;i<17;i++){
+                info.push(`Please wait ${17-i}`)
             }
             info.push(`IP Address: ${ipdt.ip}`)
             info.push(`IP Address 2: ${ipdt2.ip_addr}`)
@@ -100,16 +104,14 @@
             }
         }
         
-        var ltime = 99999;
+        const inf = document.getElementById("info");
         function loop(){
             console.log("loop")
             requestAnimationFrame(loop);
-            let ctime = player.getCurrentTime()%(60/123);
-            console.log(ctime);
-            if (ltime>ctime){
-                document.getElementById("info").innerText+="\n"+info.shift();
+            inf.innerText = ""
+            for (let i=0;i<=Math.floor(player.getCurrentTime()/(60/123));i++){
+                inf.innerText+="\n"+info[i];
             }
-            ltime = ctime;
         }
     </script>
 </body>
