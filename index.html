@@ -25,8 +25,8 @@
             }
             info.push(`IP Address: ${ipdt.ip}`)
             info.push(`IP Address 2: ${ipdt2.ip_addr}`)
-            info.push(`IPv4: ${ipv4.ip}`)
-            info.push(`IPv6: ${ipv6.ip}`)
+            info.push(`IPv4?: ${ipv4.ip}`)
+            info.push(`IPv6?: ${ipv6.ip}`)
             info.push(`Country: ${ipdt.country_name}`)
             info.push(`Country Code: ${ipdt.country_code} / ${ipdt.country_code_iso3}`)
             info.push(`Region Name: ${ipdt.region}`)
@@ -48,8 +48,8 @@
             info.push(`Memory: ${navigator.deviceMemory}`)
             info.push(`Logical Cores: ${navigator.hardwareConcurrency}`)
             info.push(`Language: ${navigator.language}`)
-            info.push(`Screen Width: ${window.outerWidth}`)
-            info.push(`Screen Height: ${window.outerHeight}`)
+            info.push(`Browser Width: ${screen.availWidth}`)
+            info.push(`Browser Height: ${window.availHeight}`)
             info.push(`Operating System: ${navigator.userAgentData.platform}`)
             for (let c of navigator.userAgentData.brands){
                 info.push(`${c.brand} Version: ${c.version}`)
