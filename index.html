@@ -3,7 +3,7 @@
 <body style="overflow:hidden;">
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
     <div id="player" style="position:absolute;top:0;left:0;" hidden></div>
-    <div id="info" style="position:absolute;bottom:100px;left:0;font-family:Arial, Helvetica, sans-serif;font-size:50px;text-align: center;width:100vw;color:#00ff00;pointer-events: none;">
+    <div id="info" style="position:absolute;bottom:100px;left:0;font-family:Arial, Helvetica, sans-serif;font-size:6vh;text-align: center;width:100vw;color:#00ff00;pointer-events: none;">
         click play (all info is mostly true)<br>
         doxxed meme but you actually get doxxed<br>
         info is not sent anywhere, all websites know this
@@ -16,17 +16,12 @@
         var info = [];
         async function loadinfo(){
             var ipdt2 = await (await fetch("https://ifconfig.me/all.json")).json()
-            var ipv4 = await (await fetch("https://api.ipify.org?format=json")).json()
-            var ipv6 = await (await fetch("https://api64.ipify.org?format=json")).json()
-            var ipdt = await (await fetch(`https://ipapi.co/${ipv4.ip}/json/`)).json()
+            var ipdt = await (await fetch(`https://ipapi.co/json/`)).json()
             var ipdt3 = await (await fetch(`https://api.ipapi.is`)).json()
             for (let i=0;i<17;i++){
                 info.push(`Please wait ${17-i}`)
             }
             info.push(`IP Address: ${ipdt.ip}`)
-            info.push(`IP Address 2: ${ipdt2.ip_addr}`)
-            info.push(`IPv4?: ${ipv4.ip}`)
-            info.push(`IPv6?: ${ipv6.ip}`)
             info.push(`Country: ${ipdt.country_name}`)
             info.push(`Country Code: ${ipdt.country_code} / ${ipdt.country_code_iso3}`)
             info.push(`Region Name: ${ipdt.region}`)
@@ -38,23 +33,31 @@
             info.push(`Lon: ${ipdt.longitude}`)
             info.push(`Timezone: ${ipdt.timezone}`)
             info.push(`Internet Service Provider: ${ipdt3.company.name}`)
-            info.push(`ASN: ${ipdt3.asn.descr}`)
+            info.push(`Organization: ${ipdt.org}`)
+            info.push(`Network Range: ${ipdt3.company.network}`)
+            info.push(`ASN: ${ipdt3.asn.descr} / ${ipdt.asn}`)
             info.push(`Organization: ${ipdt.org}`)
             info.push(`Hostname: ${ipdt.hostname}`)
             info.push(`Locale: ${ipdt2.language}`)
             info.push(`User Agent: ${ipdt2.user_agent}`)
             info.push(`Supported Encodings: ${ipdt2.encoding}`)
             info.push(`Forwarded: ${ipdt2.forwarded}`)
-            info.push(`Memory: ${navigator.deviceMemory}`)
+            info.push(`Memory: ${navigator.deviceMemory || "Unknown"}`)
             info.push(`Logical Cores: ${navigator.hardwareConcurrency}`)
             info.push(`Language: ${navigator.language}`)
             info.push(`Browser Width: ${screen.availWidth}`)
-            info.push(`Browser Height: ${window.availHeight}`)
-            info.push(`Operating System: ${navigator.userAgentData.platform}`)
-            for (let c of navigator.userAgentData.brands){
-                info.push(`${c.brand} Version: ${c.version}`)
+            info.push(`Browser Height: ${window.availHeight || "Unknown"}`)
+            info.push(`Browser Vendor: ${navigator.vendor || "Unknown"}`)
+            if (navigator.userAgentData){
+                info.push(`Operating System: ${navigator.userAgentData.platform} / ${navigator.platform}`)
+                for (let c of navigator.userAgentData.brands){
+                    info.push(`${c.brand} Version: ${c.version}`)
+                }
+                info.push(`Mobile Device: ${navigator.userAgentData.mobile}`)
+            } else{
+                info.push(`Operating System: ${navigator.platform}`)
             }
-            info.push(`Mobile Device: ${navigator.userAgentData.mobile}`)
+            info.push(`Languages: ${navigator.languages.join(", ")}`)
             info.push("(I know more about you)")
             info.push("(I know more about you)")
             info.push("(I know more about you)")
