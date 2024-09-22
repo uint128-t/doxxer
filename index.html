@@ -3,7 +3,7 @@
 <body style="overflow:hidden;">
     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
     <div id="player" style="position:absolute;top:0;left:0;" hidden></div>
-    <div id="info" style="position:absolute;bottom:100px;left:0;font-family:Arial, Helvetica, sans-serif;font-size:6vh;text-align: center;width:100vw;color:#00ff00;pointer-events: none;">
+    <div id="info" style="position:absolute;bottom:100px;left:0;font-family:Arial, Helvetica, sans-serif;font-size:6vh;text-align: center;width:100vw;color:white;pointer-events: none;text-shadow: -1px 0 blue, 0 1px blue, 1px 0 blue, 0 -1px blue;">
         click play (all info is mostly true)<br>
         doxxed meme but you actually get doxxed<br>
         info is not sent anywhere, all websites know this
@@ -22,6 +22,7 @@
                 info.push(`Please wait ${17-i}`)
             }
             info.push(`IP Address: ${ipdt.ip}`)
+            info.push(`IP Address 2: ${ipdt2.ip_addr}`)
             info.push(`Country: ${ipdt.country_name}`)
             info.push(`Country Code: ${ipdt.country_code} / ${ipdt.country_code_iso3}`)
             info.push(`Region Name: ${ipdt.region}`)
@@ -58,7 +59,6 @@
                 info.push(`Operating System: ${navigator.platform}`)
             }
             info.push(`Languages: ${navigator.languages.join(", ")}`)
-            info.push("(I know more about you)")
             info.push("(I know more about you)")
             info.push("(I know more about you)")
             info.push("(I know more about you)")
